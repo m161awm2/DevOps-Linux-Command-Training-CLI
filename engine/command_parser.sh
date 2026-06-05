@@ -72,6 +72,81 @@ simulated_command() {
   return 1
 }
 
+is_path_like_arg() {
+  case "$1" in
+    ""|-*) return 1 ;;
+    *) return 0 ;;
+  esac
+}
+
+require_file_operand() {
+  cmd="$1"; shift || true
+  case "$cmd" in
+    cat|less)
+      for a in "$@"; do
+        if is_path_like_arg "$a"; then return 0; fi
+      done
+      print_error "$cmd 명령에는 파일명이 필요합니다."
+      return 1
+      ;;
+    head|tail)
+      need_option_arg=0
+      for a in "$@"; do
+        if [ "$need_option_arg" -eq 1 ]; then need_option_arg=0; continue; fi
+        case "$a" in
+          -n|-c|-b) need_option_arg=1 ;;
+          -*) ;;
+          *) return 0 ;;
+        esac
+      done
+      if [ "$need_option_arg" -eq 1 ]; then
+        print_error "$cmd 옵션에 필요한 값이 없습니다."
+      else
+        print_error "$cmd 명령에는 파일명이 필요합니다."
+      fi
+      return 1
+      ;;
+    grep)
+      positional=0
+      need_option_arg=0
+      for a in "$@"; do
+        if [ "$need_option_arg" -eq 1 ]; then need_option_arg=0; continue; fi
+        case "$a" in
+          -e|-f|-m|-A|-B|-C) need_option_arg=1 ;;
+          -*) ;;
+          *) positional=$((positional + 1)) ;;
+        esac
+      done
+      if [ "$need_option_arg" -eq 1 ]; then
+        print_error "grep 옵션에 필요한 값이 없습니다."
+        return 1
+      fi
+      if [ "$positional" -lt 2 ]; then
+        print_error "grep 명령에는 검색어와 파일명이 필요합니다."
+        return 1
+      fi
+      ;;
+  esac
+  return 0
+}
+
+run_tail_command() {
+  follow=0
+  preview_args=()
+  for a in "$@"; do
+    case "$a" in
+      -f|-F) follow=1 ;;
+      *) preview_args+=("$a") ;;
+    esac
+  done
+  if [ "$follow" -eq 1 ]; then
+    command tail -n 10 "${preview_args[@]}"
+    echo "[SIMULATION] tail follow mode stopped after initial log preview."
+  else
+    command tail "$@"
+  fi
+}
+
 run_local_command() {
   line="$1"
   set -- $line
@@ -86,16 +161,22 @@ run_local_command() {
       if [ -d "$new" ] && case "$new" in "$SANDBOX_DIR"*) true;; *) false;; esac; then CURRENT_DIR="$(cd "$new" && pwd)"; else print_error "sandbox 밖으로 이동할 수 없거나 디렉토리가 없습니다."; fi ;;
     ls) (cd "$CURRENT_DIR" && command ls "$@") ;;
     less)
+      require_file_operand less "$@" || return 1
       for a in "$@"; do case "$a" in /*|*..*|~*) print_error "sandbox 내부 상대경로만 조회할 수 있습니다."; return 1;; esac; done
       (cd "$CURRENT_DIR" && command sed -n '1,20p' "$1") 2>&1 | sed 's#'"$SANDBOX_DIR"'#sandbox#g' ;;
     cat|head|tail|grep|find|du|df)
+      require_file_operand "$cmd" "$@" || return 1
       for a in "$@"; do
         case "$a" in
           -*|"."|"*"*|ERROR|error|database|timeout|DATABASE_URL) ;;
           /*|*..*|~*) print_error "sandbox 내부 상대경로만 조회할 수 있습니다."; return 1 ;;
         esac
       done
-      (cd "$CURRENT_DIR" && command "$cmd" "$@") 2>&1 | sed 's#'"$SANDBOX_DIR"'#sandbox#g' ;;
+      if [ "$cmd" = "tail" ]; then
+        (cd "$CURRENT_DIR" && run_tail_command "$@") 2>&1 | sed 's#'"$SANDBOX_DIR"'#sandbox#g'
+      else
+        (cd "$CURRENT_DIR" && command "$cmd" "$@") 2>&1 | sed 's#'"$SANDBOX_DIR"'#sandbox#g'
+      fi ;;
     whoami|uname|date|env)
       command "$cmd" "$@" 2>&1 ;;
     touch|mkdir|cp|mv|rm|chmod)

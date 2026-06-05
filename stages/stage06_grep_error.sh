@@ -11,6 +11,6 @@ load_stage_06(){
     "ERROR 라인을 필터링해 database timeout 원인을 식별했다." \
     "검색할 단어와 파일명을 함께 입력하세요." \
     "grep 명령에 에러 키워드와 로그 파일 경로를 붙입니다." \
-    '^grep[[:space:]]+["\']?ERROR["\']?[[:space:]]+logs/app\.log$' \
-    '^grep[[:space:]]+-i[[:space:]]+["\']?error["\']?[[:space:]]+logs/app\.log$'; 
+    "^grep[[:space:]]+[\"']?ERROR[\"']?[[:space:]]+logs/app\\.log\$" \
+    "^grep[[:space:]]+-i[[:space:]]+[\"']?error[\"']?[[:space:]]+logs/app\\.log\$";
 }
