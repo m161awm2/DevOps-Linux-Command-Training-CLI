@@ -1,6 +1,6 @@
 # devops-linux-command-game
 
-Bash 기반 DevOps Linux Command Training CLI 게임입니다. 단순 퀴즈가 아니라 장애 상황을 읽고, 실제 운영자가 입력할 법한 명령어를 통해 원인을 조사하고 복구 절차를 학습하도록 만들었습니다.
+Bash 기반 DevOps Linux Command Training CLI 게임입니다.
 
 ## 실행 방법
 
@@ -10,7 +10,7 @@ chmod +x game.sh
 ./game.sh
 ```
 
-macOS와 Linux에서 Bash로 실행됩니다. 외부 서버, Docker, Kubernetes, AWS는 필요하지 않습니다. 모든 출력은 `sandbox/` 안의 로컬 파일과 시뮬레이션으로 처리됩니다.
+macOS와 Linux에서 Bash로 실행됩니다. 
 
 ## 게임 규칙
 
@@ -79,50 +79,50 @@ quit   메인 메뉴로 돌아가기
 
 | 영역 | 명령어 | 설명 | 예시 |
 | --- | --- | --- | --- |
-| 기본 | `pwd` | 현재 위치 확인 | 명령어만 단독 입력 |
-| 기본 | `ls` | 파일 목록 확인 | `ls 폴더명` |
-| 기본 | `cd` | 디렉토리 이동 | `cd 폴더명` |
-| 기본 | `cat` | 파일 내용 출력 | `cat 파일명` |
-| 기본 | `touch` | 빈 파일 생성 | `touch 파일명` |
-| 기본 | `mkdir` | 디렉토리 생성 | `mkdir 폴더명` |
-| 기본 | `cp` | 파일 복사 | `cp 원본 대상` |
-| 기본 | `mv` | 이동/이름 변경 | `mv 원본 대상` |
-| 기본 | `rm` | 파일 삭제 | `rm 파일명` |
-| 로그 | `grep` | 문자열 검색 | `grep 검색어 파일명` |
-| 로그 | `find` | 파일 검색 | `find 시작경로 조건 패턴` |
-| 로그 | `tail` | 로그 끝부분 확인 | `tail 옵션 파일명` |
-| 로그 | `tail -f` | 실시간 로그 추적 | `tail 옵션 파일명` |
-| 권한 | `chmod` | 권한 변경 | `chmod 권한 파일명` |
-| 프로세스 | `ps` | 프로세스 확인 | `ps 옵션 \| grep 이름` |
+| 기본 | `pwd` | 현재 위치 확인 | `pwd` |
+| 기본 | `ls` | 파일 목록 확인 | `ls -al` |
+| 기본 | `cd` | 디렉토리 이동 | `cd logs` |
+| 기본 | `cat` | 파일 내용 출력 | `cat config/app.env` |
+| 기본 | `touch` | 빈 파일 생성 | `touch app/healthcheck.txt` |
+| 기본 | `mkdir` | 디렉토리 생성 | `mkdir backup/today` |
+| 기본 | `cp` | 파일 복사 | `cp app/deploy.sh backup/` |
+| 기본 | `mv` | 이동/이름 변경 | `mv app.tmp app.conf` |
+| 기본 | `rm` | 파일 삭제 | `rm app/debug.tmp` |
+| 로그 | `grep` | 문자열 검색 | `grep ERROR logs/app.log` |
+| 로그 | `find` | 파일 검색 | `find . -name "*.log"` |
+| 로그 | `tail` | 로그 끝부분 확인 | `tail -n 50 logs/app.log` |
+| 로그 | `tail -f` | 실시간 로그 추적 | `tail -f /var/log/nginx/error.log` |
+| 권한 | `chmod` | 권한 변경 | `chmod +x deploy.sh` |
+| 프로세스 | `ps` | 프로세스 확인 | `ps aux \| grep node` |
 | 프로세스 | `kill` | 프로세스 종료 | `kill 1234` |
-| 네트워크 | `ss` | 리슨 포트 확인 | `ss 옵션` |
-| 네트워크 | `lsof` | 포트 점유 확인 | `lsof 옵션 포트` |
-| HTTP | `curl` | HTTP 응답 확인 | `curl 옵션 URL` |
-| 서비스 | `systemctl` | 서비스 상태/재시작 | `systemctl 명령 서비스명` |
-| 서비스 | `journalctl` | systemd 로그 | `journalctl 옵션 서비스명` |
-| 서비스 | `nginx -t` | Nginx 설정 검사 | `nginx 옵션` |
-| 운영 | `df -h` | 디스크 사용량 | `df 옵션` |
-| 운영 | `du -sh` | 디렉토리 용량 | `du 옵션 경로` |
-| 운영 | `tar` | 묶고 압축 | `tar 옵션 압축파일 대상` |
-| 운영 | `crontab` | 예약 작업 | `crontab 옵션` |
-| 원격 | `ssh` | 원격 접속 | `ssh 사용자@호스트` |
-| 원격 | `scp` | 원격 복사 | `scp 원본 사용자@호스트:대상` |
-| Docker | `docker ps` | 컨테이너 목록 | `docker ps 옵션` |
-| Docker | `docker logs` | 컨테이너 로그 | `docker logs 컨테이너명` |
-| Docker | `docker exec` | 컨테이너 내부 실행 | `docker exec 컨테이너명 명령` |
-| Docker | `docker compose` | compose 서비스 관리 | `docker compose 명령 서비스명` |
-| Kubernetes | `kubectl get pods` | 파드 목록 | `kubectl get 리소스` |
-| Kubernetes | `kubectl describe pod` | 파드 이벤트 | `kubectl describe 리소스 이름` |
-| Kubernetes | `kubectl logs` | 파드 로그 | `kubectl logs 파드명` |
-| Kubernetes | `kubectl rollout undo` | 배포 롤백 | `kubectl rollout undo 대상` |
-| 네트워크 | `dig` | DNS 확인 | `dig 호스트명` |
-| 네트워크 | `ip route` | 라우팅 확인 | `ip 명령` |
-| AWS | `aws s3 ls` | S3 버킷 확인 | `aws s3 작업` |
-| AWS | `aws ec2 describe-instances` | EC2 조회 | `aws ec2 작업` |
+| 네트워크 | `ss` | 리슨 포트 확인 | `ss -ltnp` |
+| 네트워크 | `lsof` | 포트 점유 확인 | `lsof -i :3000` |
+| HTTP | `curl` | HTTP 응답 확인 | `curl -I http://localhost:3000` |
+| 서비스 | `systemctl` | 서비스 상태/재시작 | `systemctl status nginx` |
+| 서비스 | `journalctl` | systemd 로그 | `journalctl -u nginx -n 50` |
+| 서비스 | `nginx -t` | Nginx 설정 검사 | `nginx -t` |
+| 운영 | `df -h` | 디스크 사용량 | `df -h` |
+| 운영 | `du -sh` | 디렉토리 용량 | `du -sh logs` |
+| 운영 | `tar` | 묶고 압축 | `tar -czvf backup.tar.gz ./app` |
+| 운영 | `crontab` | 예약 작업 | `crontab -l` |
+| 원격 | `ssh` | 원격 접속 | `ssh -i ~/.ssh/devops-key.pem ec2-user@10.0.1.10` |
+| 원격 | `scp` | 원격 복사 | `scp -i ~/.ssh/devops-key.pem app.tar.gz ec2-user@10.0.1.10:/home/ec2-user/` |
+| Docker | `docker ps` | 컨테이너 목록 | `docker ps -a` |
+| Docker | `docker logs` | 컨테이너 로그 | `docker logs app-container` |
+| Docker | `docker exec` | 컨테이너 내부 실행 | `docker exec -it app-container sh` |
+| Docker | `docker compose` | compose 서비스 관리 | `docker compose logs api` |
+| Kubernetes | `kubectl get pods` | 파드 목록 | `kubectl get pods -n default` |
+| Kubernetes | `kubectl describe pod` | 파드 이벤트 | `kubectl describe pod api-pod -n default` |
+| Kubernetes | `kubectl logs` | 파드 로그 | `kubectl logs api-pod -n default` |
+| Kubernetes | `kubectl rollout undo` | 배포 롤백 | `kubectl rollout undo deployment/api -n default` |
+| 네트워크 | `dig` | DNS 확인 | `dig example.com` |
+| 네트워크 | `ip route` | 라우팅 확인 | `ip route` |
+| AWS | `aws s3 ls` | S3 버킷 확인 | `aws s3 ls` |
+| AWS | `aws ec2 describe-instances` | EC2 조회 | `aws ec2 describe-instances --region ap-northeast-2` |
 
 ## 안전 설계
 
-사용자 입력 전체를 `eval`로 실행하지 않습니다. `engine/command_parser.sh`가 첫 명령어를 허용 목록으로 제한하고, 위험 패턴은 `engine/safety.sh`에서 차단합니다.
+사용자 입력 전체를 `eval`로 실행하지 않습니다. `engine/command_parser.sh`가 첫 명령어를 허용 목록으로 제한하고, 위험 패턴은 `engine/safety.sh`에ƒ서 차단합니다.
 
 차단 예:
 
@@ -145,19 +145,3 @@ fork bomb 패턴
 ssh, scp, aws, kubectl, docker, docker compose, systemctl,
 journalctl, pm2, nginx -t, iptables
 ```
-
-## 확장 방법
-
-1. `stages/stage31_new_topic.sh` 파일을 추가합니다.
-2. `load_stage_31` 함수를 만들고 `set_stage`에 상황, 목표, 힌트, 예시, 설명, 정답 패턴을 넣습니다.
-3. `engine/scoring.sh`의 `TOTAL_STAGES` 값을 늘립니다.
-4. 실제 실행하면 안 되는 새 명령은 `engine/command_parser.sh`의 시뮬레이션 분기에 추가합니다.
-
-## 포트폴리오 어필 포인트
-
-- Bash만으로 구현한 CLI 게임 엔진
-- 안전한 명령어 파서와 위험 명령어 차단
-- Docker/Kubernetes/AWS 없이 로컬 시뮬레이션으로 DevOps 학습 가능
-- 스테이지별 점수, 진행 저장, Incident Report 자동 생성
-- 초급 Linux부터 클라우드 장애 대응까지 단계형 커리큘럼
-# DevOps-Linux-Command-Training-CLI
