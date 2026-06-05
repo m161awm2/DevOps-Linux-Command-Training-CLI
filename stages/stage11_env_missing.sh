@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_11(){ set_stage 11 "환경변수 누락" "앱 로그에 필수 DB 환경변수가 없다는 메시지가 보입니다." "DATABASE_URL 환경변수를 설정하거나 확인하세요." "env, export, grep" "export 변수명=값" "export는 현재 쉘에 환경변수를 설정합니다. env | grep KEY로 확인합니다." "서비스 장애는 코드보다 환경변수 누락에서 자주 발생합니다." "DATABASE_URL 누락을 확인하고 실행 환경에 필요한 값을 설정했다." "DATABASE_URL이라는 키를 포함해야 합니다." "환경변수 확인 또는 설정 명령에 DATABASE_URL 키를 포함합니다." '^export[[:space:]]+DATABASE_URL=.+' '^env.*DATABASE_URL$' '^grep[[:space:]]+DATABASE_URL[[:space:]]+config/app\.env$'; }

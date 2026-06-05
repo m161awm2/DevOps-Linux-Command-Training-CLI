@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_08(){ set_stage 8 "실행 권한 문제" "배포 스크립트를 실행하려는데 Permission denied가 발생했습니다." "app/deploy.sh에 실행 권한을 부여하세요." "chmod, ls -l" "chmod 권한 파일명" "chmod +x는 파일에 실행 비트를 추가합니다. ls -l로 권한을 확인할 수 있습니다." "배포 스크립트 실행 실패는 권한 누락인 경우가 많습니다." "deploy.sh에 실행 권한을 부여해 배포 스크립트 실행 조건을 복구했다." "실행 가능하게 만드는 +x 옵션을 떠올리세요." "chmod 명령에 실행 권한 옵션과 스크립트 경로를 붙입니다." '^chmod[[:space:]]+\+x[[:space:]]+app/deploy\.sh$' '^chmod[[:space:]]+755[[:space:]]+app/deploy\.sh$'; }

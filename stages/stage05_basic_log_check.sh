@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_05(){ set_stage 5 "기본 로그 확인" "앱이 간헐적으로 실패합니다. 최근 로그부터 확인해야 합니다." "앱 로그의 최근 내용을 확인하세요." "tail, cat, less" "tail 옵션 파일명" "tail은 로그 끝부분을 보여줍니다. 최근 장애 원인을 빠르게 확인할 때 기본 선택입니다." "장애 대응은 최근 로그에서 증상, 시간, 에러 메시지를 잡는 것부터 시작합니다." "최근 앱 로그를 확인해 database timeout 에러를 발견했다." "로그의 마지막 줄들을 보는 명령입니다." "tail 명령에 줄 수 옵션과 로그 파일 경로를 붙입니다." '^tail[[:space:]].*logs/app\.log$' '^cat[[:space:]]+logs/app\.log$' '^less[[:space:]]+logs/app\.log$'; }

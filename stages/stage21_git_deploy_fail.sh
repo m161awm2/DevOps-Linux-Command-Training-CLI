@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_21(){ set_stage 21 "Git 배포 실패 조사" "배포 서버에서 최신 코드가 반영되지 않았습니다. 현재 브랜치와 변경 상태를 봐야 합니다." "git 상태 확인에 해당하는 명령을 입력하세요." "git status, git log, git branch" "git 명령" "실제 실행은 제한하지만, git status는 배포 실패 때 워킹트리와 브랜치 상태 확인의 시작입니다." "잘못된 브랜치, 충돌, 미커밋 변경은 배포 실패의 흔한 원인입니다." "배포 워킹트리 상태를 확인하는 절차를 수행했다." "배포 실패 첫 확인은 status입니다." "git으로 상태, 브랜치, 최근 로그 중 하나를 확인합니다." '^git[[:space:]]+status$' '^git[[:space:]]+branch$' '^git[[:space:]]+log.*$'; }

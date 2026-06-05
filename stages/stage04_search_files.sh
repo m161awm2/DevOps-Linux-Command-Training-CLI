@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_04(){ set_stage 4 "로그 파일 찾기" "장애 로그가 어디 있는지 모릅니다. sandbox 안에서 로그 파일 후보를 찾아야 합니다." "확장자가 .log인 파일을 검색하세요." "find, ls" "find 시작경로 조건 패턴" "find는 조건으로 파일을 찾습니다. -name은 파일명 패턴 검색입니다." "서버마다 로그 위치가 다르기 때문에 find는 초기 조사에 자주 쓰입니다." ".log 파일 위치를 찾아 app.log와 nginx_error.log를 확인 대상으로 좁혔다." "현재 위치 이하에서 이름 패턴으로 찾으세요." "find 명령에 시작 경로와 파일명 패턴 조건을 넣습니다." '^find[[:space:]]+\.[[:space:]]+-name[[:space:]]+.*\.log.*$' '^find[[:space:]]+.*-name[[:space:]]+.*\.log.*$'; }

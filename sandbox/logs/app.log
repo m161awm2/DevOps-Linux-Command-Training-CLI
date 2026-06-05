@@ -1,0 +1,4 @@
+INFO boot ok
+WARN cache slow
+ERROR database timeout
+INFO retry success

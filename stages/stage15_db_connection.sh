@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_15(){ set_stage 15 "DB 연결 장애" "앱은 살아 있지만 로그인 요청에서 DB timeout이 발생합니다." "앱 로그에서 database 관련 에러를 검색하세요." "grep, tail, env" "grep 옵션 검색어 파일명" "grep -i는 대소문자 차이를 무시합니다. DB 장애는 로그와 DATABASE_URL을 함께 확인합니다." "DB 연결 장애는 앱, 네트워크, 자격증명, DB 상태 중 어디가 문제인지 분리해야 합니다." "앱 로그에서 database timeout을 확인해 DB 연결 계층 장애로 분류했다." "database 또는 timeout 키워드를 로그에서 찾아보세요." "grep 명령에 DB 관련 키워드와 앱 로그 경로를 붙입니다." '^grep[[:space:]]+-i[[:space:]]+database[[:space:]]+logs/app\.log$' '^grep[[:space:]]+.*timeout.*logs/app\.log$' '^tail[[:space:]].*logs/app\.log$'; }

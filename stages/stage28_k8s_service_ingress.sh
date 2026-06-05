@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_28(){ set_stage 28 "Service/Ingress 확인" "파드는 Running인데 외부 트래픽이 들어오지 않습니다." "Service 또는 Ingress 리소스를 확인하세요." "kubectl get svc, kubectl get ingress" "kubectl get 리소스" "Service는 파드로 가는 내부 진입점, Ingress는 외부 HTTP 진입점입니다." "파드 정상이어도 Service selector나 Ingress host가 틀리면 사용자는 장애를 봅니다." "Service와 Ingress 상태를 확인해 외부 트래픽 경로를 점검했다." "svc 또는 ingress를 get 하세요." "kubectl get으로 서비스나 인그레스 리소스를 조회합니다." '^kubectl[[:space:]]+get[[:space:]]+svc.*$' '^kubectl[[:space:]]+get[[:space:]]+ingress.*$'; }

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_18(){ set_stage 18 "Crontab 백업 실패" "매일 새벽 백업이 돌지 않았습니다. cron 등록 상태를 확인해야 합니다." "현재 crontab을 조회하세요." "crontab -l" "crontab 옵션" "crontab -l은 현재 사용자 예약 작업 목록을 보여줍니다. 경로와 실행 권한, 환경변수가 흔한 실패 원인입니다." "cron은 쉘 환경이 제한적이라 절대경로와 로그 리다이렉션이 중요합니다." "crontab 등록 내용을 조회해 백업 스크립트 경로 문제를 확인했다." "목록을 보는 옵션은 -l입니다." "crontab 목록 조회 옵션을 사용합니다." '^crontab[[:space:]]+-l$' '^crontab[[:space:]]+-e$'; }

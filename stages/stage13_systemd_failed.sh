@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_13(){ set_stage 13 "systemd 서비스 실패" "웹 서버 서비스가 failed 상태입니다." "nginx 서비스 상태 또는 systemd 로그를 확인하세요." "systemctl, journalctl" "systemctl 명령 서비스명" "systemctl status는 서비스 상태를, journalctl -u는 해당 유닛 로그를 보여줍니다." "Linux 서버 운영에서 systemd는 서비스 생명주기와 장애 로그의 중심입니다." "nginx systemd 상태와 유닛 로그를 확인해 실패 원인 조사에 착수했다." "서비스 이름 nginx와 status 또는 journalctl을 조합하세요." "서비스 상태 확인 또는 유닛 로그 조회 명령에 nginx를 포함합니다." '^systemctl[[:space:]]+status[[:space:]]+nginx$' '^journalctl[[:space:]]+-u[[:space:]]+nginx.*$'; }

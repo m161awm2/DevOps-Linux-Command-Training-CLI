@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_14(){ set_stage 14 "Nginx 502" "사용자는 502 Bad Gateway를 봅니다. 설정 문법과 upstream 연결을 확인해야 합니다." "nginx 설정 검사를 실행하세요." "nginx -t, curl, journalctl" "nginx 옵션" "nginx -t는 설정 파일 문법을 검사합니다. 502에서는 upstream, proxy_pass, 백엔드 포트를 함께 봅니다." "웹 장애에서 Nginx는 진입점이라 설정 검사와 로그 확인이 빠른 분기점입니다." "nginx 설정 검사를 수행해 proxy_pass 설정 오류 가능성을 확인했다." "nginx 명령에 테스트 옵션을 붙이세요." "nginx 설정 테스트 옵션을 사용합니다." '^nginx[[:space:]]+-t$' '^curl[[:space:]]+-I[[:space:]]+http://localhost:3000$' '^journalctl[[:space:]]+-u[[:space:]]+nginx.*$'; }

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_22(){ set_stage 22 "Docker 컨테이너 로그" "컨테이너가 계속 재시작됩니다." "컨테이너 목록 또는 app-container 로그를 확인하세요." "docker ps -a, docker logs" "docker logs 컨테이너명" "docker ps -a는 종료/재시작 컨테이너까지 보고, docker logs는 컨테이너 표준출력을 확인합니다." "컨테이너 장애는 상태와 로그 두 가지를 먼저 보면 대부분 방향이 잡힙니다." "Docker 컨테이너 상태와 로그를 확인해 환경변수 누락 원인을 발견했다." "docker ps 또는 docker logs를 사용하세요." "컨테이너 목록을 보거나 특정 컨테이너 로그를 조회합니다." '^docker[[:space:]]+ps[[:space:]]+-a$' '^docker[[:space:]]+logs[[:space:]]+app-container$'; }

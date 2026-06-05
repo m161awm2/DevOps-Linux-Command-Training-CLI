@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_17(){ set_stage 17 "백업 압축" "긴급 패치 전 app 디렉토리를 백업해야 합니다." "app 디렉토리를 backup/app-backup.tar.gz로 묶고 압축하세요." "tar, gzip, cp" "tar 옵션 압축파일 대상" "tar -czvf는 gzip 압축 tar 아카이브를 생성합니다. c는 생성, z는 gzip, v는 상세, f는 파일명입니다." "패치 전 백업은 장애 복구 시간을 줄이는 가장 싼 보험입니다." "app 디렉토리를 tar.gz로 백업해 롤백 가능한 상태를 만들었다." "tar에 c,z,v,f 옵션과 출력 파일명을 넣으세요." "tar 명령에 gzip 압축 옵션, 출력 파일, 대상 디렉토리를 순서대로 넣습니다." '^tar[[:space:]]+-czvf[[:space:]]+backup/app-backup\.tar\.gz[[:space:]]+app$' '^tar[[:space:]]+-zcvf[[:space:]]+backup/app-backup\.tar\.gz[[:space:]]+app$'; }

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_03(){ set_stage 3 "파일 만들기" "점검 결과를 남길 빈 파일이 필요합니다. app 디렉토리 아래에 healthcheck.txt를 만들어야 합니다." "app/healthcheck.txt 파일을 생성하세요." "touch, ls" "touch 파일명" "touch는 빈 파일을 만들거나 파일의 수정 시간을 갱신합니다. 생성 뒤 ls로 확인할 수 있습니다." "장애 대응 중 임시 점검 파일이나 플래그 파일을 만드는 일은 자주 발생합니다." "점검용 healthcheck.txt 파일을 생성해 후속 확인에 쓸 파일을 준비했다." "빈 파일을 만드는 명령과 대상 경로를 조합하세요." "touch 명령 뒤에 만들 파일 경로를 붙입니다." '^touch[[:space:]]+app/healthcheck\.txt$' '^touch[[:space:]]+./app/healthcheck\.txt$'; }

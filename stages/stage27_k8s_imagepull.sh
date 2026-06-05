@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_27(){ set_stage 27 "Kubernetes ImagePull 장애" "새 배포 후 파드가 ImagePullBackOff가 되었다고 알림이 왔습니다." "파드 이벤트를 describe로 확인하세요." "kubectl describe pod" "kubectl describe 리소스 이름" "ImagePullBackOff는 이미지 이름, 태그, 레지스트리 인증 문제에서 발생합니다. describe 이벤트가 가장 직접적입니다." "이미지 풀 실패는 배포 직후 자주 발생하며 롤백 판단에도 연결됩니다." "파드 이벤트를 확인해 이미지 풀 계층의 배포 문제로 분류했다." "이벤트는 logs보다 describe에 잘 나옵니다." "kubectl describe로 문제 파드의 이벤트를 확인합니다." '^kubectl[[:space:]]+describe[[:space:]]+pod[[:space:]]+api.*$' '^kubectl[[:space:]]+get[[:space:]]+pods.*$'; }

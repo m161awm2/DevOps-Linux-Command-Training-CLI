@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_12(){ set_stage 12 "PM2 프로세스 중지" "Node API가 PM2에서 stopped 상태입니다." "PM2 상태를 확인하거나 API를 재시작하세요." "pm2 status, pm2 restart" "pm2 명령 앱이름" "pm2는 Node.js 프로세스 매니저입니다. status로 상태를 보고 restart로 복구합니다." "PM2 운영 환경에서는 프로세스 상태와 로그 확인이 기본 복구 루틴입니다." "PM2에서 중지된 api 프로세스를 확인하고 재시작 조치를 수행했다." "pm2와 status/restart 중 하나를 사용하세요." "pm2 상태 확인 명령 또는 앱 재시작 명령을 사용합니다." '^pm2[[:space:]]+status$' '^pm2[[:space:]]+restart[[:space:]]+api$' '^pm2[[:space:]]+logs[[:space:]]+api$'; }

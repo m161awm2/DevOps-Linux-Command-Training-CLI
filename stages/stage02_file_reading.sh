@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_02(){ set_stage 2 "설정 파일 읽기" "앱이 어떤 포트로 뜨는지 확인해야 합니다. 관련 설정 파일은 config 디렉토리 안에 있습니다." "설정 파일 내용을 출력하세요." "cat, less, head" "cat 파일명" "cat은 작은 설정 파일을 빠르게 읽을 때 유용합니다. less/head도 파일 확인에 쓸 수 있습니다." "환경변수 누락이나 포트 불일치는 배포 장애의 흔한 원인입니다." "config/app.env를 읽어 PORT와 DATABASE_URL 상태를 확인했다." "파일 내용을 그대로 보는 명령을 사용하세요." "파일 조회 명령 뒤에 설정 파일 경로를 붙입니다." '^cat[[:space:]]+config/app\.env$' '^less[[:space:]]+config/app\.env$' '^head.*config/app\.env$'; }

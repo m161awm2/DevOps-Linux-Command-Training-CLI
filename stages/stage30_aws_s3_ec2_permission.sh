@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_30(){ set_stage 30 "AWS S3/EC2 권한 확인" "백업 업로드가 AccessDenied로 실패하고 어떤 EC2 역할에서 실행 중인지 확인해야 합니다." "S3 목록 또는 EC2 인스턴스 정보를 조회하세요." "aws s3 ls, aws ec2 describe-instances" "aws 서비스 작업" "aws s3 ls는 버킷 접근 권한을 빠르게 확인하고, describe-instances는 인스턴스와 IAM 역할 단서를 줍니다." "클라우드 장애는 리소스 상태뿐 아니라 IAM 권한 경계까지 함께 봐야 합니다." "S3 접근과 EC2 인스턴스 정보를 조회해 IAM 권한 문제 조사 근거를 확보했다." "aws s3 ls 또는 aws ec2 describe-instances를 사용하세요." "aws 명령에 대상 서비스와 조회 작업을 넣습니다." '^aws[[:space:]]+s3[[:space:]]+ls.*$' '^aws[[:space:]]+ec2[[:space:]]+describe-instances.*$'; }

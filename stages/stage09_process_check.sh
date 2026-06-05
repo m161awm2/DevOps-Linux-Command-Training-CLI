@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_09(){ set_stage 9 "프로세스 확인" "API가 응답하지 않습니다. 관련 프로세스가 떠 있는지 확인해야 합니다." "node 프로세스를 조회하세요." "ps aux, grep" "ps 옵션 | grep 이름" "ps aux는 전체 프로세스를 보여주고 grep으로 원하는 프로세스를 좁힙니다." "프로세스 존재 여부는 서비스 장애의 생사 확인입니다." "node 프로세스를 조회해 API 프로세스가 실행 중인지 확인했다." "프로세스 목록과 node 필터를 함께 쓰세요." "ps 명령 출력에서 프로세스 이름을 필터링합니다." '^ps[[:space:]]+aux.*grep[[:space:]]+node$' '^ps[[:space:]]+.*node.*$'; }

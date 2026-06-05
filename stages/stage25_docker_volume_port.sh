@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+load_stage_25(){ set_stage 25 "Docker 포트/볼륨 확인" "컨테이너는 떠 있지만 외부에서 접근이 안 됩니다. 포트 매핑을 확인해야 합니다." "app-container 상세 정보나 포트 상태를 확인하세요." "docker inspect, docker ps" "docker inspect 컨테이너명" "docker inspect는 포트 바인딩, 볼륨, 네트워크 등 상세 JSON 정보를 제공합니다." "컨테이너 내부 포트와 호스트 포트가 다르면 서비스가 살아도 외부 접근은 실패합니다." "컨테이너 inspect로 3000/tcp가 호스트 8080에 매핑된 사실을 확인했다." "inspect 또는 ps로 포트 정보를 보세요." "컨테이너 상세 정보나 목록 출력으로 포트 매핑을 확인합니다." '^docker[[:space:]]+inspect[[:space:]]+app-container$' '^docker[[:space:]]+ps.*$'; }
