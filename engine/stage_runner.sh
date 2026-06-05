@@ -105,6 +105,80 @@ show_answer_candidates() {
   done | awk '!seen[$0]++'
 }
 
+show_option_help() {
+  context="$STAGE_HINT $STAGE_EXAMPLE $STAGE_WRONG_HINT $STAGE_ANSWER_DETAIL ${ANSWERS[*]}"
+  printed=0
+  print_option_meaning() {
+    [ "$printed" -eq 0 ] && echo "옵션 뜻:"
+    printed=1
+    echo "- $1: $2"
+  }
+
+  case "$context" in
+    *tail*"-f"*|*tail*"\\-f"*) print_option_meaning "-f" "파일 끝을 따라가며 새로 추가되는 로그를 계속 출력합니다." ;;
+  esac
+  case "$context" in
+    *tail*"-n"*|*tail*"\\-n"*|*journalctl*"-n"*|*journalctl*"\\-n"*) print_option_meaning "-n" "출력할 줄 수를 지정합니다." ;;
+  esac
+  case "$context" in
+    *grep*"-i"*|*grep*"\\-i"*) print_option_meaning "-i" "대소문자를 구분하지 않고 검색합니다." ;;
+  esac
+  case "$context" in
+    *find*"-name"*|*find*"\\-name"*) print_option_meaning "-name" "파일 이름 패턴으로 검색합니다." ;;
+  esac
+  case "$context" in
+    *"ls -l"*|*"ls[[:space:]]+-l"*|*"chmod"*"ls -l"*) print_option_meaning "-l" "파일 권한, 소유자, 크기 같은 자세한 목록 정보를 보여줍니다." ;;
+  esac
+  case "$context" in
+    *chmod*"+x"*|*chmod*"\\+x"*) print_option_meaning "+x" "파일에 실행 권한을 추가합니다." ;;
+  esac
+  case "$context" in
+    *ss*"-ltnp"*|*ss*"\\-ltnp"*) print_option_meaning "-ltnp" "LISTEN TCP 포트와 관련 프로세스 정보를 숫자 형식으로 보여줍니다." ;;
+  esac
+  case "$context" in
+    *lsof*"-i"*|*lsof*"\\-i"*) print_option_meaning "-i" "네트워크 소켓 또는 특정 포트 사용 정보를 조회합니다." ;;
+  esac
+  case "$context" in
+    *curl*"-I"*|*curl*"\\-I"*) print_option_meaning "-I" "본문 없이 HTTP 응답 헤더만 요청합니다." ;;
+  esac
+  case "$context" in
+    *journalctl*"-u"*|*journalctl*"\\-u"*) print_option_meaning "-u" "특정 systemd 서비스 유닛의 로그만 조회합니다." ;;
+  esac
+  case "$context" in
+    *nginx*"-t"*|*nginx*"\\-t"*) print_option_meaning "-t" "Nginx 설정 파일 문법을 테스트합니다." ;;
+  esac
+  case "$context" in
+    *df*"-h"*|*df*"\\-h"*) print_option_meaning "-h" "용량을 KB/MB/GB처럼 사람이 읽기 쉬운 단위로 보여줍니다." ;;
+  esac
+  case "$context" in
+    *du*"-sh"*|*du*"\\-sh"*) print_option_meaning "-sh" "대상별 총 사용량을 사람이 읽기 쉬운 단위로 요약합니다." ;;
+  esac
+  case "$context" in
+    *tar*"-czvf"*|*tar*"\\-czvf"*) print_option_meaning "-czvf" "새 tar 아카이브를 만들고 gzip으로 압축하며 처리 파일을 표시하고 파일명을 지정합니다." ;;
+  esac
+  case "$context" in
+    *tar*"-zcvf"*|*tar*"\\-zcvf"*) print_option_meaning "-zcvf" "gzip 압축 tar 아카이브를 새로 만들고 처리 파일을 표시하며 파일명을 지정합니다." ;;
+  esac
+  case "$context" in
+    *crontab*"-l"*|*crontab*"\\-l"*) print_option_meaning "-l" "현재 사용자의 crontab 목록을 출력합니다." ;;
+  esac
+  case "$context" in
+    *crontab*"-e"*|*crontab*"\\-e"*) print_option_meaning "-e" "현재 사용자의 crontab을 편집합니다." ;;
+  esac
+  case "$context" in
+    *ssh*"-i"*|*ssh*"\\-i"|*scp*"-i"*|*scp*"\\-i"*) print_option_meaning "-i" "접속에 사용할 개인키 파일 경로를 지정합니다." ;;
+  esac
+  case "$context" in
+    *docker*"ps"*"-a"*|*docker*"ps"*"\\-a"*) print_option_meaning "-a" "실행 중인 컨테이너뿐 아니라 중지된 컨테이너도 함께 보여줍니다." ;;
+  esac
+  case "$context" in
+    *docker*"exec"*"-it"*|*docker*"exec"*"\\-it"*) print_option_meaning "-it" "대화형 입력을 열고 터미널을 붙여 컨테이너 안에서 명령을 실행합니다." ;;
+  esac
+  case "$context" in
+    *docker*"compose"*"-d"*|*docker*"compose"*"\\-d"*) print_option_meaning "-d" "서비스를 백그라운드에서 실행합니다." ;;
+  esac
+}
+
 write_incident_report() {
   n="$1"; score="$2"; file="$REPORT_DIR/stage$(printf "%02d" "$n")_incident_report.md"
   {
@@ -148,9 +222,9 @@ run_stage() {
       quit|exit) return ;;
       help) show_stage_help; continue ;;
       reset) score=100; wrong=0; revealed=0; seed_sandbox; show_stage; continue ;;
-      hint) score=$((score - 5)); [ "$score" -lt 0 ] && score=0; print_warn "$STAGE_WRONG_HINT"; continue ;;
+      hint) score=$((score - 5)); [ "$score" -lt 0 ] && score=0; print_warn "$STAGE_WRONG_HINT"; show_option_help; continue ;;
       answer)
-        if [ "$wrong" -ge 3 ]; then revealed=1; print_info "$STAGE_ANSWER_DETAIL"; show_answer_candidates
+        if [ "$wrong" -ge 3 ]; then revealed=1; print_info "$STAGE_ANSWER_DETAIL"; show_answer_candidates; show_option_help
         else print_warn "정답 공개는 오답 3회 이후 가능합니다. 현재 오답: $wrong"; fi
         continue ;;
     esac
