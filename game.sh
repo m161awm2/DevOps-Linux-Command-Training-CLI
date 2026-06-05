@@ -28,9 +28,10 @@ show_menu() {
     echo
     echo "1) 게임 시작"
     echo "2) 스테이지 선택"
-    echo "3) 도움말"
-    echo "4) 전체 명령어 예시 보기"
-    echo "5) 전체 Incident Report 보기"
+    echo "3) 카테고리별 문제 풀기"
+    echo "4) 도움말"
+    echo "5) 전체 명령어 예시 보기"
+    echo "6) 전체 Incident Report 보기"
     echo "0) 종료"
     echo
     printf "%s" "$(color "$CYAN" "선택> ")"
@@ -38,9 +39,10 @@ show_menu() {
     case "$choice" in
       1) run_all_stages ;;
       2) select_stage_menu ;;
-      3) show_help; pause ;;
-      4) show_command_examples; pause ;;
-      5) show_all_reports; pause ;;
+      3) select_category_menu ;;
+      4) show_help; pause ;;
+      5) show_command_examples; pause ;;
+      6) show_all_reports; pause ;;
       0|q|quit|exit) print_info "훈련을 종료합니다."; exit 0 ;;
       *) print_warn "메뉴 번호를 입력하세요."; sleep 1 ;;
     esac

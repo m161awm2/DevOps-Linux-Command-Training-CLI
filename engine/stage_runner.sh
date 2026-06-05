@@ -14,6 +14,36 @@ set_stage() {
   ANSWERS=("$@")
 }
 
+category_count() {
+  echo 7
+}
+
+category_name() {
+  case "$1" in
+    1) echo "Linux 기본/파일" ;;
+    2) echo "로그 검색/추적" ;;
+    3) echo "운영 점검/서비스" ;;
+    4) echo "원격 접속/Git 배포" ;;
+    5) echo "Docker" ;;
+    6) echo "Kubernetes" ;;
+    7) echo "네트워크/AWS" ;;
+    *) echo "" ;;
+  esac
+}
+
+category_stages() {
+  case "$1" in
+    1) echo "1 2 3 4" ;;
+    2) echo "5 6 7" ;;
+    3) echo "8 9 10 11 12 13 14 15 16 17 18" ;;
+    4) echo "19 20 21" ;;
+    5) echo "22 23 24 25" ;;
+    6) echo "26 27 28" ;;
+    7) echo "29 30" ;;
+    *) echo "" ;;
+  esac
+}
+
 load_stage_file() {
   n="$1"; padded="$(printf "%02d" "$n")"
   file="$(ls "$STAGES_DIR/stage${padded}_"*.sh 2>/dev/null | head -1)"
@@ -219,7 +249,7 @@ run_stage() {
       "") continue ;;
     esac
     case "$special" in
-      quit|exit) return ;;
+      quit|exit) return 2 ;;
       help) show_stage_help; continue ;;
       reset) score=100; wrong=0; revealed=0; seed_sandbox; show_stage; continue ;;
       hint) score=$((score - 5)); [ "$score" -lt 0 ] && score=0; print_warn "$STAGE_WRONG_HINT"; show_option_help; continue ;;
@@ -238,9 +268,45 @@ run_stage() {
 }
 
 run_all_stages() {
-  for i in $(seq 1 "$TOTAL_STAGES"); do run_stage "$i"; done
+  for i in $(seq 1 "$TOTAL_STAGES"); do
+    run_stage "$i"
+    status=$?
+    [ "$status" -eq 2 ] && return
+  done
   show_final_score
   show_all_reports
+  pause
+}
+
+show_stage_group_score() {
+  label="$1"; shift
+  total=0; done_count=0; stage_count=0
+  for i in "$@"; do
+    stage_count=$((stage_count + 1))
+    eval "s=\${STAGE_SCORE_$i:-}"
+    if [ -n "$s" ]; then
+      total=$((total + s)); done_count=$((done_count + 1))
+    fi
+  done
+  [ "$done_count" -eq 0 ] && avg=0 || avg=$((total / done_count))
+  echo
+  hr
+  print_info "$label 결과"
+  print_info "총점: $total / $((done_count * 100))"
+  print_info "완료 스테이지: $done_count / $stage_count"
+  print_info "평균점수: $avg"
+  print_info "등급: $(grade_for "$avg")"
+  hr
+}
+
+run_stage_group() {
+  label="$1"; shift
+  for i in "$@"; do
+    run_stage "$i"
+    status=$?
+    [ "$status" -eq 2 ] && return
+  done
+  show_stage_group_score "$label" "$@"
   pause
 }
 
@@ -255,6 +321,44 @@ select_stage_menu() {
   done
   echo; printf "%s" "$(color "$CYAN" "스테이지 번호> ")"; read -r n
   case "$n" in ''|*[!0-9]*) print_warn "숫자를 입력하세요."; sleep 1 ;; *) [ "$n" -ge 1 ] && [ "$n" -le "$TOTAL_STAGES" ] && run_stage "$n" || sleep 1 ;; esac
+}
+
+show_category_menu() {
+  clear_screen
+  logo
+  print_info "카테고리별 문제 풀기"
+  echo
+  for i in $(seq 1 "$(category_count)"); do
+    name="$(category_name "$i")"
+    stages="$(category_stages "$i")"
+    count="$(set -- $stages; echo "$#")"
+    printf "%d) %s (%s문제)\n" "$i" "$name" "$count"
+  done
+  echo "0) 메인 메뉴"
+}
+
+select_category_menu() {
+  while true; do
+    show_category_menu
+    echo
+    printf "%s" "$(color "$CYAN" "카테고리 번호> ")"
+    read -r n
+    case "$n" in
+      0|q|quit|exit) return ;;
+      ''|*[!0-9]*) print_warn "숫자를 입력하세요."; sleep 1 ;;
+      *)
+        if [ "$n" -ge 1 ] && [ "$n" -le "$(category_count)" ]; then
+          name="$(category_name "$n")"
+          stages="$(category_stages "$n")"
+          # shellcheck disable=SC2086
+          run_stage_group "$name" $stages
+        else
+          print_warn "카테고리 번호를 확인하세요."
+          sleep 1
+        fi
+        ;;
+    esac
+  done
 }
 
 show_all_reports() {
