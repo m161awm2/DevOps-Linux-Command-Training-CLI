@@ -160,3 +160,4 @@ journalctl, pm2, nginx -t, iptables
 - Docker/Kubernetes/AWS 없이 로컬 시뮬레이션으로 DevOps 학습 가능
 - 스테이지별 점수, 진행 저장, Incident Report 자동 생성
 - 초급 Linux부터 클라우드 장애 대응까지 단계형 커리큘럼
+# DevOps-Linux-Command-Training-CLI
